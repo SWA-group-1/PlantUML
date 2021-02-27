@@ -1,4 +1,5 @@
 @startuml
+'https://plantuml.com/deployment-diagram
 
 node "Android client" {
     package game as "game.apk"

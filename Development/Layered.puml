@@ -47,11 +47,11 @@ Server layers v1
 |cE99      |cE99      |cE99      |              |
 | Instance | Instance | Instance |              |  Server logic
 |          |          |          |              |
-+----------+----+-----+----------+--------------+
-|               |                |              |
-|  Broadcaster  |  API endpoint  |  Storage API |  Communication
-|               |                |              |
-+---------------+----------------+--------------+
++----------+-----+----+----------+--------------+
+|                |               |              |
+|  API endpoint  |  Broadcaster  |  Storage API |  Communication
+|                |               |              |
++----------------+---------------+--------------+
 
 Server layers v2
 +------------------------------------------+

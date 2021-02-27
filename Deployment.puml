@@ -1,0 +1,28 @@
+@startuml
+
+node "Android client" {
+    package game as "game.apk"
+}
+
+cloud "Google Cloud Platform" #DodgerBlue;line:White;text:White {
+    node "VM instance" #White {
+        package backend [
+            .NET back-end
+        ]
+    }
+
+    database firestore [
+
+----
+GCP Cloud Firestore
+----
+
+    ]
+
+    backend -[thickness=2]- firestore
+}
+
+backend -[thickness=4]right- game : "            Internet          "
+backend <.right. game : "             "
+
+@enduml

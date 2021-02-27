@@ -3,22 +3,21 @@
 
 Legend
 /----\
-|c9CF| Model
+|cE99| Model
 \----/
 /----\
 |cADA| View
 \----/
 /----\
-|cE99|Controller
+|c9CF|Controller
 \----/
 /----\
 |    | Other
 \----/
 
-
 Client layers
 +--------------------------------+
-|cE99                            |
+|c9CF                            |
 |         Game controller        | Controller
 |                                |
 +--------------------------------+
@@ -30,7 +29,7 @@ Client layers
 | Event handler | User interface |  Device UI
 |               |                |
 +---------------+----------------+
-|c9CF                            |
+|cE99                            |
 |          Model mirror          | Client logic
 |                                |
 +--------------+-----------------+
@@ -38,5 +37,35 @@ Client layers
 |   Receiver   |   Transmitter   | Communication
 |              |                 |
 +--------------+-----------------+
+
+Server layers v1
++-----------------------------------------------+
+|                                               |
+|                                               | Traffic routing
+|                                               |
++----------+----------+----------+ Orchestrator |
+|cE99      |cE99      |cE99      |              |
+| Instance | Instance | Instance |              |  Server logic
+|          |          |          |              |
++----------+----+-----+----------+--------------+
+|               |                |              |
+|  Broadcaster  |  API endpoint  |  Storage API |  Communication
+|               |                |              |
++---------------+----------------+--------------+
+
+Server layers v2
++------------------------------------------+
+|                                          |
+|                  Router                  |Traffic routing
+|                                          |
++---------------------+--------------------+
+|cE99                 |                    |
+|    Game instance    |    Orchestrator    | Server logic
+|                     |                    |
++-------------+-------+------+-------------+
+|             |              |             |
+| Broadcaster | API endpoint | Storage API | Communication
+|             |              |             |
++-------------+--------------+-------------+
 
 @enduml

@@ -1,0 +1,42 @@
+@startditaa
+'https://plantuml.com/ditaa
+
+Legend
+/----\
+|c9CF| Model
+\----/
+/----\
+|cADA| View
+\----/
+/----\
+|cE99|Controller
+\----/
+/----\
+|    | Other
+\----/
+
+
+Client layers
++--------------------------------+
+|cE99                            |
+|         Game controller        | Controller
+|                                |
++--------------------------------+
+|cADA                            |
+|          Visualization         |    View
+|                                |
++---------------+----------------+
+|cADA           |cADA            |
+| Event handler | User interface |  Device UI
+|               |                |
++---------------+----------------+
+|c9CF                            |
+|          Model mirror          | Client logic
+|                                |
++--------------+-----------------+
+|              |                 |
+|   Receiver   |   Transmitter   | Communication
+|              |                 |
++--------------+-----------------+
+
+@enduml

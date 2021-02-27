@@ -32,11 +32,11 @@ Client layers
 |cE99                            |
 |          Model mirror          | Client logic
 |                                |
-+--------------+-----------------+
-|              |                 |
-|   Receiver   |   Transmitter   | Communication
-|              |                 |
-+--------------+-----------------+
++------------------+-------------+
+|                  |             |
+|   API connector  |   Listener  | Communication
+|                  |             |
++------------------+-------------+
 
 Server layers v1
 +-----------------------------------------------+
@@ -56,16 +56,20 @@ Server layers v1
 Server layers v2
 +------------------------------------------+
 |                                          |
-|                  Router                  |Traffic routing
+|                  Router                  | Traffic routing
 |                                          |
-+---------------------+--------------------+
-|cE99                 |                    |
-|    Game instance    |    Orchestrator    | Server logic
-|                     |                    |
-+-------------+-------+------+-------------+
-|             |              |             |
-| Broadcaster | API endpoint | Storage API | Communication
-|             |              |             |
-+-------------+--------------+-------------+
++--------------------+---------------------+\
+|                                          ||
+|               Orchestrator               ||
+|                                          ||
++---------------------+--------------------+| Server logic
+|cE99                 |                    ||
+|      Game model     |      Companion     ||
+|                     |                    ||
++--------------+------+------+-------------+/
+|              |             |             |
+| API endpoint | Broadcaster | Storage API |  Communication
+|              |             |             |
++--------------+-------------+-------------+
 
-@enduml
+@endditaa

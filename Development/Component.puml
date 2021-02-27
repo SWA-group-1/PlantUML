@@ -2,16 +2,16 @@
 'https://plantuml.com/component-diagram
 
 package "Server" {
-    component "API endpoint" as api
+    component "API endpoint" as endpoint
     component "Broadcaster" as broadcaster
     component "Instance" as instance
     component "Orchestrator" as orchestrator
     component "Storage API" as storage
 
-    orchestrator -up-> api
+    orchestrator -up-> endpoint
     orchestrator -up-> instance
     orchestrator -up-> storage
-    instance -[hidden]up-> api
+    instance -[hidden]up-> endpoint
     instance -up-> broadcaster
     instance -[hidden]up-> storage
 }
@@ -21,28 +21,27 @@ package "Client" {
     component "Game controller" as controller
     component "Model mirror" as model
     component "Receiver" as receiver
-    component "Transmitter" as transmitter
+    component "API connector" as connector
     component "Visualization" as visualization
     component "User interface" as ui
 
     controller -down-> visualization
-    controller -down-> transmitter
+    controller -down-> connector
     visualization -[hidden]down-> receiver
     visualization -down-> event
     visualization -down-> ui
     visualization -down-> model
     event -[hidden]-> model
     event -[hidden]-> receiver
-    event -[hidden]-> transmitter
+    event -[hidden]-> connector
     ui -[hidden]-> model
     ui -[hidden]-> receiver
-    ui -[hidden]-> transmitter
-    model -[hidden]-> transmitter
+    ui -[hidden]-> connector
+    model -[hidden]-> connector
     model --> receiver
 }
 
-receiver --> api
 receiver --> broadcaster
-transmitter --> api
+connector --> endpoint
 
 @enduml

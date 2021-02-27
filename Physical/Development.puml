@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+node "Android client" {
+    package game as "game.apk"
+}
+node "Development computer" #White {
+    package backend [
+        .NET back-end
+    ]
+}
+
+cloud "Google Cloud Platform" #DodgerBlue;line:White;text:White {
+
+    database firestore [
+
+----
+GCP Cloud Firestore
+----
+
+    ]
+
+    backend -[thickness=2]- firestore
+}
+
+backend -[thickness=4]right- game : "                Internet          "
+backend <.right. game : "             "
+
+@enduml

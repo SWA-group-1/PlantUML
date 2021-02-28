@@ -5,7 +5,7 @@ package "Model" {
     component "Game model ☁" as model
     component "Model mirror" as mirror
 
-    mirror -down-> model
+    mirror .right.> model
 }
 
 package "View" {
@@ -13,18 +13,18 @@ package "View" {
     component "Visualization" as visualization
     component "User interface" as ui
 
-    visualization -down-> event
-    visualization -down-> ui
+    visualization .down.> event
+    visualization .down.> ui
 }
 
 package "Controller" {
     component "Game controller" as controller
 }
 
-controller -down-> visualization
-controller -down-> model
-visualization -down-> mirror
-event -[hidden]-> mirror
-ui -[hidden]-> mirror
+controller .down.> visualization
+controller .down.> model
+visualization .down.> mirror
+event -[hidden]right- mirror
+ui -[hidden]- mirror
 
 @enduml

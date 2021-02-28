@@ -38,22 +38,7 @@ Client layers
 |                  |             |
 +------------------+-------------+
 
-Server layers v1
-+-----------------------------------------------+
-|                                               |
-|                                               | Traffic routing
-|                                               |
-+----------+----------+----------+ Orchestrator |
-|cE99      |cE99      |cE99      |              |
-| Instance | Instance | Instance |              |  Server logic
-|          |          |          |              |
-+----------+-----+----+----------+--------------+
-|                |               |              |
-|  API endpoint  |  Broadcaster  |  Storage API |  Communication
-|                |               |              |
-+----------------+---------------+--------------+
-
-Server layers v2
+Server layers
 +------------------------------------------+
 |                                          |
 |                  Router                  | Traffic routing

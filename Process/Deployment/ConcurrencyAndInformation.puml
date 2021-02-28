@@ -1,0 +1,80 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+legend
+    Objects there can exist
+    many instances of run-time
+    are marked with green.
+end legend
+
+node "Client" as client_0 #ADA {
+    agent "Game controller" as controller_0
+    agent "Visualizer" as visualizer_0
+    agent "Event handler" as event_0
+    agent "User interface" as ui_0
+    agent "Model mirror" as mirror_0
+    agent "API connector" as connector_0
+    agent "Listener" as listener_0
+
+    event_0 -down-> visualizer_0
+    visualizer_0 -up-> ui_0
+    visualizer_0 -right-> controller_0
+    controller_0 -right-> mirror_0
+    mirror_0 -> visualizer_0
+    mirror_0 -down-> connector_0
+    listener_0 -up-> mirror_0
+}
+
+node "Client" as client_1 #ADA {
+    agent "Game controller" as controller_1
+    agent "Visualizer" as visualizer_1
+    agent "Event handler" as event_1
+    agent "User interface" as ui_1
+    agent "Model mirror" as mirror_1
+    agent "API connector" as connector_1
+    agent "Listener" as listener_1
+
+    event_1 -down-> visualizer_1
+    visualizer_1 -up-> ui_1
+    visualizer_1 -right-> controller_1
+    controller_1 -right-> mirror_1
+    mirror_1 -> visualizer_1
+    mirror_1 -down-> connector_1
+    listener_1 -up-> mirror_1
+}
+
+node "Server" as server {
+    agent "API endpoint" as endpoint
+    agent "Broadcaster" as broadcaster_0 #ADA
+    agent "Broadcaster" as broadcaster_1 #ADA
+    agent "Storage API" as storage
+    agent "Model instance" as model_0 #ADA
+    agent "Model instance" as model_1 #ADA
+    agent "Orchestrator" as orchestrator
+    agent "Router" as router
+
+    endpoint -[hidden]right- broadcaster_0
+    broadcaster_0 -[hidden]right- broadcaster_1
+    broadcaster_1 -[hidden]right- storage
+    model_0 -up-> broadcaster_0
+    model_0 -[hidden]right- model_1
+    model_1 -up-> broadcaster_1
+    orchestrator --> endpoint
+    orchestrator <-up-> storage
+    router <-up- endpoint
+    router -up-> model_0
+    router -up-> model_1
+    router -up-> orchestrator
+}
+
+ui_0 -[hidden]right- mirror_1
+
+client_1 -[hidden]down- server
+
+endpoint <-up-> connector_0
+endpoint <-up-> connector_1
+
+broadcaster_0 -up-> listener_0
+broadcaster_1 -up-> listener_1
+
+@enduml

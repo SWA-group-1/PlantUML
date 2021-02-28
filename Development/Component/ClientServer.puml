@@ -4,6 +4,7 @@
 package "Server" {
     component "API endpoint" as endpoint
     component "Broadcaster" as broadcaster
+    component "Router" as router
     component "Model instance" as model
     component "Orchestrator" as orchestrator
     component "Storage API" as storage
@@ -11,9 +12,14 @@ package "Server" {
     orchestrator .up.> endpoint
     orchestrator .up.> model
     orchestrator .up.> storage
-    model -[hidden]up- endpoint
+    model .up.> router
     model .up.> broadcaster
     model -[hidden]up- storage
+    router -[hidden]up- broadcaster
+    router -[hidden]up- storage
+    router .down.> endpoint
+    endpoint -[hidden]right- broadcaster
+    broadcaster -[hidden]right- storage
 }
 
 package "Client" {

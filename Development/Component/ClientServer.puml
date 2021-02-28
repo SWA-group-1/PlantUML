@@ -8,12 +8,12 @@ package "Server" {
     component "Orchestrator" as orchestrator
     component "Storage API" as storage
 
-    orchestrator -up-> endpoint
-    orchestrator -up-> model
-    orchestrator -up-> storage
-    model -[hidden]up-> endpoint
-    model -up-> broadcaster
-    model -[hidden]up-> storage
+    orchestrator .up.> endpoint
+    orchestrator .up.> model
+    orchestrator .up.> storage
+    model -[hidden]up- endpoint
+    model .up.> broadcaster
+    model -[hidden]up- storage
 }
 
 package "Client" {
@@ -25,23 +25,23 @@ package "Client" {
     component "Visualization" as visualization
     component "User interface" as ui
 
-    controller -down-> visualization
-    controller -down-> connector
-    visualization -[hidden]down-> receiver
-    visualization -down-> event
-    visualization -down-> ui
-    visualization -down-> mirror
-    event -[hidden]-> mirror
-    event -[hidden]-> receiver
-    event -[hidden]-> connector
-    ui -[hidden]-> mirror
-    ui -[hidden]-> receiver
-    ui -[hidden]-> connector
-    mirror -[hidden]-> connector
-    mirror --> receiver
+    controller .down.> visualization
+    controller .down.> connector
+    visualization .down.> event
+    visualization .down.> mirror
+    visualization -[hidden]down- receiver
+    visualization .down.> ui
+    event -[hidden]- mirror
+    event -[hidden]- receiver
+    event -[hidden]- connector
+    ui -[hidden]- mirror
+    ui -[hidden]- receiver
+    ui -[hidden]- connector
+    mirror -[hidden]- connector
+    mirror ..> receiver
 }
 
-receiver --> broadcaster
-connector --> endpoint
+receiver ..> broadcaster
+connector ..> endpoint
 
 @enduml

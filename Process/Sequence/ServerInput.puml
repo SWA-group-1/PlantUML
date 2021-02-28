@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+collections "Client" as clients
+box "Server"
+    participant "API endpoint" as endpoint
+    participant "Broadcaster" as broadcaster
+    participant "Router" as router
+    participant "Model instance" as model
+end box
+
+clients -> endpoint : Change request
+
+activate endpoint
+endpoint -> router : Server message
+deactivate endpoint
+
+activate router
+note right of router
+    Router needs run-time
+    logic to locate and
+    communicate incoming
+    messages.
+end note
+router -> model : Server message
+deactivate router
+
+activate model
+note right of model
+    Accept and commit
+    or deny changes.
+end note
+model -> broadcaster
+deactivate model
+
+activate broadcaster
+note right of broadcaster
+    Broadcast changes.
+end note
+broadcaster -> clients
+deactivate broadcaster
+
+@enduml

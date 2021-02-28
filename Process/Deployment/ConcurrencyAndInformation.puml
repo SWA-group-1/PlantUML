@@ -21,7 +21,7 @@ node "Client" as client_0 #ADA {
     visualizer_0 -right-> controller_0
     controller_0 -right-> mirror_0
     mirror_0 -> visualizer_0
-    mirror_0 -down-> connector_0
+    mirror_0 <-down-> connector_0
     listener_0 -up-> mirror_0
 }
 
@@ -39,7 +39,7 @@ node "Client" as client_1 #ADA {
     visualizer_1 -right-> controller_1
     controller_1 -right-> mirror_1
     mirror_1 -> visualizer_1
-    mirror_1 -down-> connector_1
+    mirror_1 <-down-> connector_1
     listener_1 -up-> mirror_1
 }
 
@@ -59,12 +59,11 @@ node "Server" as server {
     model_0 -up-> broadcaster_0
     model_0 -[hidden]right- model_1
     model_1 -up-> broadcaster_1
-    orchestrator --> endpoint
+    orchestrator <--> endpoint
     orchestrator <-up-> storage
     router <-up- endpoint
     router -up-> model_0
     router -up-> model_1
-    router -up-> orchestrator
 }
 
 ui_0 -[hidden]right- mirror_1

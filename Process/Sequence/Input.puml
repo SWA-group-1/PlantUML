@@ -21,7 +21,7 @@ activate visualization
 note right
     Visualization interprets
     event as for example a
-    grid tile  being pressed.
+    board tile being pressed.
 end note
 visualization -> controller : Interpreted event
 deactivate visualization

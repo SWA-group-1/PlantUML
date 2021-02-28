@@ -22,7 +22,7 @@ package "Controller" {
 }
 
 controller .down.> visualization
-controller .down.> model
+controller .down.> mirror
 visualization .down.> mirror
 event -[hidden]right- mirror
 ui -[hidden]- mirror

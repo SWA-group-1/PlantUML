@@ -1,0 +1,93 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class ModelInstance {
+{field} Board board
+{field} Player[] players
+}
+
+class Board {
+{field} BoardPlaceable items
+}
+
+class Position{
+float x
+float y
+}
+
+class Health{
+float health
+}
+
+class PlayerHealth{
+float health
+}
+
+class Money{
+}
+
+class Speed
+
+class Sprite{
+String imageName
+}
+
+abstract class System
+
+class Projectile{
+float damage
+float cooldown
+float cooldownRemaining
+float range
+}
+
+entity Tower{
+}
+
+entity Enemy{}
+
+entity Player
+
+abstract class Component {
+}
+
+Component <|-- Position
+Position --* Tower
+Position --* Enemy
+
+Component <|-- Health
+Health --* Enemy
+
+Component <|-- Sprite
+Sprite --* Enemy
+Sprite --* Tower
+
+Component <|-- Speed
+Speed --* Enemy
+
+Component <|-- Projectile
+Projectile --* Tower
+
+Component <|-- PlayerHealth
+PlayerHealth --* Player
+
+Component <|-- Money
+Money --* Player
+
+Enemy --* Board
+Tower --* Board
+
+Position <.. MovementSystem
+Speed <.. MovementSystem
+
+System <|-up- MovementSystem
+
+System <|-up- ShootingSystem
+Projectile <.. ShootingSystem
+Position <.. ShootingSystem
+
+Player --* ModelInstance
+Board --* ModelInstance
+
+@enduml

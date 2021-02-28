@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "User" as user
+box "Client"
+    participant "Event handler" as event
+    participant "Visualization" as visualization
+    participant "Controller" as controller
+    participant "Model mirror" as mirror
+    participant "API connector" as connector
+end box
+participant "Server" as server
+
+user -> event : Input
+
+activate event
+event -> visualization : Event is propagated
+deactivate event
+
+activate visualization
+note right
+    Visualization interprets
+    event as for example a
+    grid tile  being pressed.
+end note
+visualization -> controller : Interpreted event
+deactivate visualization
+
+activate controller
+note right
+    Controller interprets
+    event as intent, for
+    example placing a
+    turret.
+end note
+controller -> mirror : Intent
+deactivate controller
+
+activate mirror
+note right
+    Model mirror checks if
+    intent is valid.
+end note
+mirror -> connector : Valid change request
+deactivate mirror
+
+activate connector
+connector -> server
+deactivate connector
+
+@enduml

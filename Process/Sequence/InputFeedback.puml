@@ -1,0 +1,80 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "User" as user
+box "Client"
+    participant "Event handler" as event
+    participant "User interface" as ui
+    participant "Visualization" as visualization
+    participant "Controller" as controller
+    participant "Model mirror" as mirror
+end box
+
+user -> event
+note right of user
+    User starting input
+    process that require
+    feedback, such as
+    drag-and-drop.
+end note
+
+activate event
+event -> visualization : Event is propagated
+deactivate event
+
+activate visualization
+note right
+    Visualization interprets
+    event as for example a
+    turret being pressed,
+    but not released.
+end note
+visualization -> controller : Interpreted event
+deactivate visualization
+
+activate controller
+note right
+    Controller interprets
+    event as intent, for
+    example testing if
+    a turret placement is
+    valid.
+end note
+controller -> mirror : Intent
+deactivate controller
+
+activate mirror
+note right
+    Model mirror checks if
+    intent is valid. Input
+    is explicitly part of
+    model mirror state,
+    so the input in process
+    is reported to the
+    visualization.
+end note
+mirror -> visualization : Input process
+deactivate mirror
+
+activate visualization
+visualization -> ui : Display process
+note right
+    Visualization renders
+    input in progress,
+    including indicators
+    for if it is valid or
+    not.
+end note
+deactivate visualization
+
+activate ui
+ui -> user
+deactivate ui
+
+note right of user
+    User gets feedback on
+    input process has
+    information to proceed.
+end note
+
+@enduml

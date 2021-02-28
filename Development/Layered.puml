@@ -62,11 +62,11 @@ Server layers v2
 |                                          ||
 |               Orchestrator               ||
 |                                          ||
-+---------------------+--------------------+| Server logic
-|cE99                 |                    ||
-|      Game model     |      Companion     ||
-|                     |                    ||
-+--------------+------+------+-------------+/
++-----------------------+------------------+| Server logic
+|cE99                   |                  ||
+|     Model instance    |     Companion    ||
+|                       |                  ||
++--------------+--------+----+-------------+/
 |              |             |             |
 | API endpoint | Broadcaster | Storage API |  Communication
 |              |             |             |

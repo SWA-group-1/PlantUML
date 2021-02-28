@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+package "Model" {
+    component "Game model ☁" as model
+    component "Model mirror" as mirror
+
+    mirror -down-> model
+}
+
+package "View" {
+    component "Event handler" as event
+    component "Visualization" as visualization
+    component "User interface" as ui
+
+    visualization -down-> event
+    visualization -down-> ui
+}
+
+package "Controller" {
+    component "Game controller" as controller
+}
+
+controller -down-> visualization
+controller -down-> model
+visualization -down-> mirror
+event -[hidden]-> mirror
+ui -[hidden]-> mirror
+
+@enduml

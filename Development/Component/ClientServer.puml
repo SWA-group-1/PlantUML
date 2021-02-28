@@ -4,22 +4,22 @@
 package "Server" {
     component "API endpoint" as endpoint
     component "Broadcaster" as broadcaster
-    component "Instance" as instance
+    component "Model instance" as model
     component "Orchestrator" as orchestrator
     component "Storage API" as storage
 
     orchestrator -up-> endpoint
-    orchestrator -up-> instance
+    orchestrator -up-> model
     orchestrator -up-> storage
-    instance -[hidden]up-> endpoint
-    instance -up-> broadcaster
-    instance -[hidden]up-> storage
+    model -[hidden]up-> endpoint
+    model -up-> broadcaster
+    model -[hidden]up-> storage
 }
 
 package "Client" {
     component "Event handler" as event
     component "Game controller" as controller
-    component "Model mirror" as model
+    component "Model mirror" as mirror
     component "Receiver" as receiver
     component "API connector" as connector
     component "Visualization" as visualization
@@ -30,15 +30,15 @@ package "Client" {
     visualization -[hidden]down-> receiver
     visualization -down-> event
     visualization -down-> ui
-    visualization -down-> model
-    event -[hidden]-> model
+    visualization -down-> mirror
+    event -[hidden]-> mirror
     event -[hidden]-> receiver
     event -[hidden]-> connector
-    ui -[hidden]-> model
+    ui -[hidden]-> mirror
     ui -[hidden]-> receiver
     ui -[hidden]-> connector
-    model -[hidden]-> connector
-    model --> receiver
+    mirror -[hidden]-> connector
+    mirror --> receiver
 }
 
 receiver --> broadcaster

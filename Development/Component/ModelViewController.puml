@@ -10,20 +10,20 @@ package "Model" {
 
 package "View" {
     component "Event handler" as event
-    component "Visualization" as visualization
+    component "Visualizer" as visualizer
     component "User interface" as ui
 
-    visualization .down.> event
-    visualization .down.> ui
+    visualizer .down.> event
+    visualizer .down.> ui
 }
 
 package "Controller" {
     component "Game controller" as controller
 }
 
-controller .down.> visualization
+controller .down.> visualizer
 controller .down.> mirror
-visualization .down.> mirror
+visualizer .down.> mirror
 event -[hidden]right- mirror
 ui -[hidden]- mirror
 

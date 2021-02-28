@@ -4,7 +4,7 @@
 actor "User" as user
 box "Client"
     participant "Event handler" as event
-    participant "Visualization" as visualization
+    participant "Visualizer" as visualizer
     participant "Controller" as controller
     participant "Model mirror" as mirror
     participant "API connector" as connector
@@ -14,17 +14,17 @@ participant "Server" as server
 user -> event : Input
 
 activate event
-event -> visualization : Event is propagated
+event -> visualizer : Event is propagated
 deactivate event
 
-activate visualization
+activate visualizer
 note right
-    Visualization interprets
+    Visualizer interprets
     event as for example a
     board tile being pressed.
 end note
-visualization -> controller : Interpreted event
-deactivate visualization
+visualizer -> controller : Interpreted event
+deactivate visualizer
 
 activate controller
 note right

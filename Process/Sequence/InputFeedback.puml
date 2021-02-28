@@ -5,7 +5,7 @@ actor "User" as user
 box "Client"
     participant "Event handler" as event
     participant "User interface" as ui
-    participant "Visualization" as visualization
+    participant "Visualizer" as visualizer
     participant "Controller" as controller
     participant "Model mirror" as mirror
 end box
@@ -19,18 +19,18 @@ note right of user
 end note
 
 activate event
-event -> visualization : Event is propagated
+event -> visualizer : Event is propagated
 deactivate event
 
-activate visualization
+activate visualizer
 note right
-    Visualization interprets
+    Visualizer interprets
     event as for example a
     turret being pressed,
     but not released.
 end note
-visualization -> controller : Interpreted event
-deactivate visualization
+visualizer -> controller : Interpreted event
+deactivate visualizer
 
 activate controller
 note right
@@ -51,21 +51,21 @@ note right
     model mirror state,
     so the input in process
     is reported to the
-    visualization.
+    visualizer.
 end note
-mirror -> visualization : Input process
+mirror -> visualizer : Input process
 deactivate mirror
 
-activate visualization
-visualization -> ui : Display process
+activate visualizer
+visualizer -> ui : Display process
 note right
-    Visualization renders
+    Visualizer renders
     input in progress,
     including indicators
     for if it is valid or
     not.
 end note
-deactivate visualization
+deactivate visualizer
 
 activate ui
 ui -> user

@@ -1,79 +1,79 @@
 @startuml
 'https://plantuml.com/class-diagram
+'----------------------COMPONENT
+legend top left
+    |Color| Type |
+    |<#physical>| E – Entity|
+    |<#lightBlue>| C – Component|
+    |<#pink>| S – System|
+    |<#darkSeaGreen>| C – Class|
+end legend
 
-abstract class Component {}
-class BoardPosition {
+class BoardPosition << (C, lightBlue) >> {
 float x
 float y
 }
-class PathPosition {
+class PathPosition << (C, lightBlue) >> {
 int distance
 }
-class Health {
+class Health << (C, lightBlue) >> {
 float health
 }
-class Money {
+class Money << (C, lightBlue) >> {
 float money
 }
-class Speed {
+class Speed << (C, lightBlue) >> {
 int speed
 }
-class Sprite {
+class Sprite << (C, lightBlue) >> {
 String imageName
 }
-class Price {
+ class Price << (C, lightBlue) >>{
 float price
 }
-class SupportFunction {
+class SupportFunction << (C, lightBlue) >> {
 function supportFunction
 }
-class Projectile {
+class Projectile << (C, lightBlue) >> {
 float damage
 float cooldown
 float cooldownRemaining
 float range
 }
-class PlayerTag {
+class PlayerTag << (C, lightBlue) >> {
 }
-Component <|-- PlayerTag
-Component <|-- PathPosition
-Component <|-- SupportFunction
-Component <|-- Price
-Component <|-- BoardPosition
-Component <|-- Health
-Component <|-- Sprite
-Component <|-- Speed
-Component <|-- Projectile
-Component <|-- Money
-
-'----------------------------
-entity AttackTower
-entity SupportTower
-entity Enemy
-entity Player
-
-SupportFunction --* SupportTower
-Price --* AttackTower
-Price --* SupportTower
-BoardPosition --* AttackTower
-BoardPosition --* SupportTower
-PathPosition --* Enemy
-Health --* Enemy
-Health --* Player
-Sprite --* Enemy
-Sprite --* AttackTower
-Sprite --* SupportTower
-Speed --* Enemy
-Projectile --* AttackTower
-Money --* Player
-PlayerTag --* Player
 
 
+'---------------------ENTITY
+class AttackTower << (E, physical >>
+entity SupportTower << (E, physical >>
+entity Enemy << (E, physical >>
+entity Player << (E, physical >>
 
-'----------------------------
-abstract class System
+SupportFunction -up-* SupportTower
+Price -up-* AttackTower
+Price -up-* SupportTower
+BoardPosition -up-* AttackTower
+BoardPosition -up-* SupportTower
+PathPosition -up-* Enemy
+Health -up-* Enemy
+Health -up-* Player
+Sprite -up-* Enemy
+Sprite -up-* AttackTower
+Sprite -up-* SupportTower
+Speed -up-* Enemy
+Projectile -up-* AttackTower
+Money -up-* Player
+PlayerTag -up-* Player
 
-System <|-up- RenderSystem
+'------------------SYSTEM
+class SupportSystem << (S, pink) >>
+class ShootingSystem << (S, pink) >>
+class RenderSystem << (S, pink) >>
+class MovementSystem << (S, pink) >>
+class DamagePlayerSystem << (S, pink) >>
+class PurchaseSystem << (S, pink) >>
+
 ' Enemy archetype
 BoardPosition <.. RenderSystem #blue
 Sprite <.. RenderSystem #blue
@@ -81,32 +81,42 @@ Sprite <.. RenderSystem #blue
 PathPosition <.. RenderSystem
 Sprite <.. RenderSystem
 
-System <|-up- DamagePlayerSystem
 ' Enemy archetype
 PathPosition <.. DamagePlayerSystem #blue
 ' Player archetype
 Health <.. DamagePlayerSystem
 PlayerTag <.. DamagePlayerSystem
 
-System <|-up- MovementSystem
 PathPosition <.. MovementSystem
 Speed <.. MovementSystem
 
-System <|-up- PurchaseSystem
 ' Player archetype
 Money <.. PurchaseSystem #blue
 Price <.. PurchaseSystem
 
-System <|-up- SupportSystem
 BoardPosition <.. SupportSystem #blue
 SupportFunction <.. SupportSystem
 
-System <|-up- ShootingSystem
 ' Attack tower archetype
 Projectile <.. ShootingSystem #blue
-BoardPosition <.. ShootingSystem #blue
+BoardPosition <.. ShootingSystem
 ' Enemy archetype
 Health <.. ShootingSystem
 PathPosition <.. ShootingSystem
+
+'-------------------------------
+
+class Board << (C, darkSeaGreen) >>{
+...
+}
+
+
+note right of Board
+    Read-only description of
+    board.
+end note
+
+Board <.up. DamagePlayerSystem
+Board <.up. RenderSystem
 
 @enduml

@@ -1,0 +1,94 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Component {}
+class Position{
+float x
+float y
+}
+class EnemyHealth{
+float health
+}
+class PlayerHealth{
+float health
+}
+class Money{
+float money
+}
+class Speed
+class Sprite{
+String imageName
+}
+class Price{
+float price
+}
+class SupportFunction{
+function supportFunction
+}
+class Projectile{
+float damage
+float cooldown
+float cooldownRemaining
+float range
+}
+
+Component <|-- SupportFunction
+Component <|-- Price
+Component <|-- Position
+Component <|-- EnemyHealth
+Component <|-- Sprite
+Component <|-- Speed
+Component <|-- Projectile
+Component <|-- PlayerHealth
+Component <|-- Money
+
+'----------------------------
+entity AttackTower
+entity SupportTower
+entity Enemy
+entity Player
+
+SupportFunction --* SupportTower
+Price --* AttackTower
+Price --* SupportTower
+Position --* AttackTower
+Position --* SupportTower
+Position --* Enemy
+EnemyHealth --* Enemy
+Sprite --* Enemy
+Sprite --* AttackTower
+Sprite --* SupportTower
+Speed --* Enemy
+Projectile --* AttackTower
+PlayerHealth --* Player
+Money --* Player
+
+'----------------------------
+abstract class System
+
+System <|-up- RenderSystem
+Position <.. RenderSystem
+Sprite <.. RenderSystem
+
+System <|-up- DamagePlayerSystem
+Position <.. DamagePlayerSystem
+PlayerHealth <.. DamagePlayerSystem
+
+System <|-up- MovementSystem
+Position <.. MovementSystem
+Speed <.. MovementSystem
+
+System <|-up- PurchaseSystem
+Money <.. PurchaseSystem
+Price <.. PurchaseSystem
+
+System <|-up- SupportSystem
+Position <.. SupportSystem
+SupportFunction <.. SupportSystem
+
+System <|-up- ShootingSystem
+Projectile <.. ShootingSystem
+Position <.. ShootingSystem
+EnemyHealth <.. ShootingSystem
+
+@enduml

@@ -39,6 +39,7 @@ float damage
 float cooldown
 float cooldownRemaining
 float range
+bool speedBoost
 }
 class PlayerTag << (C, lightBlue) >> {
 }
@@ -94,19 +95,23 @@ Speed <.. MovementSystem
 Money <.. PurchaseSystem #blue
 Price <.. PurchaseSystem
 
-BoardPosition <.. SupportSystem #blue
+' Support tower archetype
 SupportFunction <.. SupportSystem
+BoardPosition <.. SupportSystem
+' Attack tower archetype
+Projectile <.. SupportSystem #blue
+BoardPosition <.. SupportSystem #blue
 
 ' Attack tower archetype
 Projectile <.. ShootingSystem #blue
-BoardPosition <.. ShootingSystem
+BoardPosition <.. ShootingSystem #blue
 ' Enemy archetype
 Health <.. ShootingSystem
 PathPosition <.. ShootingSystem
 
 '-------------------------------
 
-class Board << (C, darkSeaGreen) >>{
+class Board << (C, darkSeaGreen) >> {
 ...
 }
 
@@ -117,6 +122,7 @@ note right of Board
 end note
 
 Board <.up. DamagePlayerSystem
+Board <.up. PurchaseSystem
 Board <.up. RenderSystem
 
 @enduml

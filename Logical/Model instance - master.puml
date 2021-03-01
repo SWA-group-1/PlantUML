@@ -2,9 +2,12 @@
 'https://plantuml.com/class-diagram
 
 abstract class Component {}
-class Position{
+class BoardPosition{
 float x
 float y
+}
+class PathPosition{
+int distance
 }
 class EnemyHealth{
 float health
@@ -32,9 +35,10 @@ float cooldownRemaining
 float range
 }
 
+Component <|-- PathPosition
 Component <|-- SupportFunction
 Component <|-- Price
-Component <|-- Position
+Component <|-- BoardPosition
 Component <|-- EnemyHealth
 Component <|-- Sprite
 Component <|-- Speed
@@ -51,9 +55,9 @@ entity Player
 SupportFunction --* SupportTower
 Price --* AttackTower
 Price --* SupportTower
-Position --* AttackTower
-Position --* SupportTower
-Position --* Enemy
+BoardPosition --* AttackTower
+BoardPosition --* SupportTower
+PathPosition --* Enemy
 EnemyHealth --* Enemy
 Sprite --* Enemy
 Sprite --* AttackTower
@@ -67,15 +71,15 @@ Money --* Player
 abstract class System
 
 System <|-up- RenderSystem
-Position <.. RenderSystem
+BoardPosition <.. RenderSystem
 Sprite <.. RenderSystem
 
 System <|-up- DamagePlayerSystem
-Position <.. DamagePlayerSystem
+PathPosition <.. DamagePlayerSystem
 PlayerHealth <.. DamagePlayerSystem
 
 System <|-up- MovementSystem
-Position <.. MovementSystem
+BoardPosition <.. MovementSystem
 Speed <.. MovementSystem
 
 System <|-up- PurchaseSystem
@@ -83,12 +87,12 @@ Money <.. PurchaseSystem
 Price <.. PurchaseSystem
 
 System <|-up- SupportSystem
-Position <.. SupportSystem
+BoardPosition <.. SupportSystem
 SupportFunction <.. SupportSystem
 
 System <|-up- ShootingSystem
 Projectile <.. ShootingSystem
-Position <.. ShootingSystem
+BoardPosition <.. ShootingSystem
 EnemyHealth <.. ShootingSystem
 
 @enduml

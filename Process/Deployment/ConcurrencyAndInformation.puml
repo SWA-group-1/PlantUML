@@ -43,6 +43,24 @@ node "Client" as client_1 #ADA {
     listener_1 -up-> mirror_1
 }
 
+node "Client" as client_2 #ADA {
+    agent "Game controller" as controller_2
+    agent "Visualizer" as visualizer_2
+    agent "Event handler" as event_2
+    agent "User interface" as ui_2
+    agent "Model mirror" as mirror_2
+    agent "API connector" as connector_2
+    agent "Listener" as listener_2
+
+    event_2 -down-> visualizer_2
+    visualizer_2 -up-> ui_2
+    visualizer_2 -right-> controller_2
+    controller_2 -right-> mirror_2
+    mirror_2 -> visualizer_2
+    mirror_2 <-down-> connector_2
+    listener_2 -up-> mirror_2
+}
+
 node "Server" as server {
     agent "API endpoint" as endpoint
     agent "Broadcaster" as broadcaster_0 #ADA
@@ -66,14 +84,15 @@ node "Server" as server {
     router -up-> model_1
 }
 
-ui_0 -[hidden]right- mirror_1
-
 client_1 -[hidden]down- server
 
 endpoint <-up-> connector_0
 endpoint <-up-> connector_1
+endpoint <-up-> connector_2
 
 broadcaster_0 -up-> listener_0
 broadcaster_1 -up-> listener_1
+broadcaster_1 -[hidden]up-> listener_1
+broadcaster_1 -up-> listener_2
 
 @enduml

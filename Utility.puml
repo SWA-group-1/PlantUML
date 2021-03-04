@@ -1,0 +1,19 @@
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+
+caption figure 1
+title Utility tree
+
+* Utility
+** Modifiability
+*** (M, M) Add new towers
+*** (M, L) Edit existing towers
+*** (L, L) Modify existing graphics
+** Performance
+*** Delay
+**** (M, M) Delay on tower placement
+**** (M, M) Delay on multiplayer interaction
+** Development Distributability
+*** (H, L) GitHub response
+
+@endmindmap

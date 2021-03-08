@@ -76,7 +76,9 @@ node "Server" as server {
     broadcaster_1 -[hidden]right- storage
     model_0 -up-> broadcaster_0
     model_0 -[hidden]right- model_1
+    model_0 -up-> storage
     model_1 -up-> broadcaster_1
+    model_1 -up-> storage
     orchestrator <--> endpoint
     orchestrator <-up-> storage
     router <-up- endpoint

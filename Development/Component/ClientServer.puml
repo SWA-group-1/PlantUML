@@ -14,7 +14,7 @@ package "Server" {
     orchestrator .up.> storage
     model .up.> router
     model .up.> broadcaster
-    model -[hidden]up- storage
+    model .up.> storage
     router -[hidden]up- broadcaster
     router -[hidden]up- storage
     router .down.> endpoint

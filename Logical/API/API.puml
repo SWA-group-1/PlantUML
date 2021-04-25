@@ -1,0 +1,37 @@
+@startuml
+allowmixing
+'https://plantuml.com/class-diagram
+
+class Controller{
+httpMethod()
+}
+
+class Request
+
+collections Requests
+collections Results
+
+class Result
+class API<< (S,#FF7700) Singleton >>{
+Attach*Handler()
+}
+
+class Startup
+
+interface IRequestHandler{
+TResult ProcessRequest(TRequest)
+}
+
+IRequestHandler --> Result
+IRequestHandler --> Request
+
+Controller <-up- Startup
+
+Controller --> API
+
+Requests -> Request
+Results -> Result
+
+API -> IRequestHandler
+
+@enduml

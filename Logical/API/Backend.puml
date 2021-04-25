@@ -1,0 +1,193 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ConnectionBroker{
+TryClaimConnection()
+}
+
+class EnemyType {
+bool Camo
+int Health
+string Name
+double Speed
+string nextType
+int SpriteNumber
+}
+
+class RoundSection {
+string EnemyType
+int Count
+DeltaTime
+}
+
+class EnemyDefinitions{
+EnemyType[] EnemyTypes
+Parse()
+}
+
+class TowerType{
+bool CanSpotCamo
+string Description
+int MediumCost
+double ProjectileSpeed
+int ProjectileSpriteNumber
+double Range
+double ReloadTime
+int TowerSpriteNumber
+int TypeNumber
+}
+
+class RoundDefinitions {
+RoundSection[][] Rounds
+}
+
+class TowerDefinitions{
+TowerType[] Towers
+}
+
+class StorageAPI{
+DownloadEnemies()
+DownloadTowers()
+DownloadRounds()
+}
+
+class Router {
+
+}
+
+class Orchestrator {
+OnClose()
+}
+
+interface LobbyObserver{
+OnClose()
+}
+
+class Lobby{
+long id
+string Name
+int PlayerCount
+JoinLobby()
+LeaveLobby()
+PlaceTower()
+SellTower()
+StartGame()
+StartRound()
+AddObserver()
+Dispose()
+}
+
+class EcsContanier{
+EcsWorld EcsWorld
+bool HasPlayerDied
+bool Running
+PlaceEnemySystem
+PlaceTowerSystem
+int Score
+SellTowerSystem
+UpdateClientSystem
+Dispose()
+ProcessFightRound()
+}
+
+class System{
+
+}
+
+class Stage{
+int Number
+string Name
+int XSize
+int YSize
+Tile[] BlockedTiles
+double PathLength
+Point[] PathPoints
+isBeforeStage()
+isOnStage()
+isValidTowerTile()
+Parse()
+}
+
+class Point{
+double X
+double Y
+double Distance()
+double SquareDistance()
+}
+
+class Tile{
+double X
+double Y
+}
+
+class Broadcaster{
+Dispose()
+DisconnectClient()
+TryAssociateWithConnection()
+TryAssociateWithConnection()
+Ping()
+FightRound()
+GameMode()
+InputRound()
+LobbyMode()
+EndGame()
+HealthUpdate()
+MoneyUpdate()
+PlayerCountUpdate()
+TowerPosition()
+TowerRemoved()
+AnimationConfirmation()
+BoardToPathAnimation()
+PathToPathAnimation()
+TowerAnimation()
+HealthAnimation()
+MoneyAnimation()
+}
+
+interface IReciever
+
+class Program {}
+
+Program *-- ConnectionBroker
+Program *-- Router
+Program *-- Orchestrator
+
+ConnectionBroker <-- Broadcaster
+ConnectionBroker <-- Orchestrator
+
+IReciever <|-up- Router
+IReciever <|-- Orchestrator
+
+Router *-- Lobby
+Router --* Orchestrator
+
+Lobby *-- EcsContanier
+Lobby *-- Broadcaster
+Lobby --* Orchestrator
+
+EcsContanier *-- Stage
+
+EcsContanier *-- System
+
+EnemyType <.. EnemyDefinitions
+RoundSection <.. RoundDefinitions
+TowerType <.. TowerDefinitions
+
+Lobby ..> TowerDefinitions
+Lobby ..> RoundDefinitions
+Lobby ..> EnemyDefinitions
+
+Lobby ..> Broadcaster
+System ..> Broadcaster
+
+StorageAPI <.up. TowerDefinitions
+StorageAPI <.up. RoundDefinitions
+StorageAPI <.up. EnemyDefinitions
+
+Stage *-- Point
+Stage *-- Tile
+
+Lobby *-- LobbyObserver
+LobbyObserver <|-up- Orchestrator
+
+@enduml

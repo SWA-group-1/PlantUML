@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "User" as user
+box "Client"
+    participant "User Interface" as ui
+    participant "Game Observer" as game
+    participant "API connector" as connector
+    participant "Receiver" as receiver
+end box
+participant "Server" as server
+
+user -> ui : Place tower input
+
+activate ui
+ui -> connector : PlaceTowerRequest()
+deactivate ui
+
+activate connector
+connector -> server : Endpoint is called
+deactivate connector
+
+server -> receiver : Broadcast sent
+
+activate receiver
+receiver -> game: TowerPlacedMessage
+deactivate receiver
+
+activate game
+game -> ui : State change
+deactivate game
+
+activate ui
+ui -> user: :O
+deactivate ui
+
+@enduml

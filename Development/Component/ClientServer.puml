@@ -5,16 +5,19 @@ package "Server" {
     component "API endpoint" as endpoint
     component "Broadcaster" as broadcaster
     component "Router" as router
-    component "Model instance" as model
+    component "Lobby" as lobby
     component "Orchestrator" as orchestrator
     component "Storage API" as storage
+    component "Connection Broker" as broker
 
+    orchestrator .up.> broker
+    broadcaster ..> broker
     orchestrator .up.> endpoint
-    orchestrator .up.> model
-    orchestrator .up.> storage
-    model .up.> router
-    model .up.> broadcaster
-    model .up.> storage
+    orchestrator .up.> lobby
+    orchestrator ..> router
+    lobby .up.> router
+    lobby .up.> broadcaster
+    lobby ..> storage
     router -[hidden]up- broadcaster
     router -[hidden]up- storage
     router .down.> endpoint
@@ -23,28 +26,15 @@ package "Server" {
 }
 
 package "Client" {
-    component "Event handler" as event
-    component "Game controller" as controller
-    component "Model mirror" as mirror
+    component GameObserver
+    component UserInterface
     component "Receiver" as receiver
     component "API connector" as connector
-    component "Visualizer" as visualizer
-    component "User interface" as ui
 
-    controller .down.> visualizer
-    controller .down.> mirror
-    visualizer .down.> event
-    visualizer .down.> mirror
-    visualizer -[hidden]down- receiver
-    visualizer .down.> ui
-    event -[hidden]- mirror
-    event -[hidden]- receiver
-    event -[hidden]- connector
-    ui -[hidden]- mirror
-    ui -[hidden]- receiver
-    ui -[hidden]- connector
-    mirror ..> connector
-    mirror ..> receiver
+    GameObserver ..> receiver
+    UserInterface ..> GameObserver
+    UserInterface ..> connector
+    GameObserver ..> connector
 }
 
 receiver ..> broadcaster

@@ -1,6 +1,10 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+class API<< (S,#FF7700) Singleton >>{
+Attach*Handler()
+}
+
 class ConnectionBroker{
 TryClaimConnection()
 }
@@ -80,6 +84,7 @@ Dispose()
 class EcsContanier{
 EcsWorld EcsWorld
 bool HasPlayerDied
+bool HasPlayerDied
 bool Running
 PlaceEnemySystem
 PlaceTowerSystem
@@ -146,11 +151,8 @@ MoneyAnimation()
 
 interface IReciever
 
-class Program {}
-
-Program *-- ConnectionBroker
-Program *-- Router
-Program *-- Orchestrator
+API <-- Router
+API <-- Orchestrator
 
 ConnectionBroker <-- Broadcaster
 ConnectionBroker <-- Orchestrator
@@ -169,9 +171,9 @@ EcsContanier *-- Stage
 
 EcsContanier *-- System
 
-EnemyType <.. EnemyDefinitions
-RoundSection <.. RoundDefinitions
-TowerType <.. TowerDefinitions
+EnemyType "n" --* EnemyDefinitions : "EnemyTypes"
+RoundSection "n" --* RoundDefinitions : "Rounds"
+TowerType "n" --* TowerDefinitions : "Towers"
 
 Lobby ..> TowerDefinitions
 Lobby ..> RoundDefinitions

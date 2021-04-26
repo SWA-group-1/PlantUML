@@ -44,19 +44,13 @@ node "Client" as client_1 #ADA {
 }
 
 node "Client" as client_2 #ADA {
-    agent "Game controller" as controller_2
-    agent "Visualizer" as visualizer_2
-    agent "Event handler" as event_2
     agent "User interface" as ui_2
-    agent "Model mirror" as mirror_2
+    agent "GameObserver" as mirror_2
     agent "API connector" as connector_2
-    agent "Listener" as listener_2
+    agent "Receiver" as listener_2
 
-    event_2 -down-> visualizer_2
-    visualizer_2 -up-> ui_2
-    visualizer_2 -right-> controller_2
-    controller_2 -right-> mirror_2
-    mirror_2 -> visualizer_2
+    ui_2 --> connector_2
+    ui_2 <--> mirror_2
     mirror_2 <-down-> connector_2
     listener_2 -up-> mirror_2
 }
@@ -66,32 +60,37 @@ node "Server" as server {
     agent "Broadcaster" as broadcaster_0 #ADA
     agent "Broadcaster" as broadcaster_1 #ADA
     agent "Storage API" as storage
-    agent "Lobby" as model_0 #ADA
-    agent "Lobby" as model_1 #ADA
+    agent "Lobby" as lobby_0 #ADA
+    agent "Lobby" as lobby_1 #ADA
     agent "Orchestrator" as orchestrator
     agent "Router" as router
 
     endpoint -[hidden]right- broadcaster_0
     broadcaster_0 -[hidden]right- broadcaster_1
     broadcaster_1 -[hidden]right- storage
-    model_0 -up-> broadcaster_0
-    model_0 -[hidden]right- model_1
-    model_0 -up-> storage
-    model_1 -up-> broadcaster_1
-    model_1 -up-> storage
-    orchestrator <-up-> endpoint
-    'orchestrator <-up-> storage
+    lobby_0 -up-> broadcaster_0
+    lobby_0 -[hidden]right- lobby_1
+    lobby_0 <-up- storage
+    lobby_1 -up-> broadcaster_1
+    lobby_1 <-up- storage
+    orchestrator <-up- endpoint
+    orchestrator .up.> endpoint
     router <-up- endpoint
-    router -up-> model_0
-    router -up-> model_1
-    router <-up- orchestrator
+    router .up.> endpoint
+    router -up-> lobby_0
+    router <.up. lobby_0
+    router -up-> lobby_1
+    router <.up. lobby_1
 }
 
 client_1 -[hidden]down- server
 
-endpoint <-up-> connector_0
-endpoint <-up-> connector_1
-endpoint <-up-> connector_2
+endpoint <-up- connector_0
+endpoint .up.> connector_0
+endpoint <-up- connector_1
+endpoint .up.> connector_1
+endpoint <-up- connector_2
+endpoint .up.> connector_2
 
 broadcaster_0 -up-> listener_0
 broadcaster_1 -up-> listener_1

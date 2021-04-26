@@ -6,7 +6,7 @@ box "Server"
     participant "API endpoint" as endpoint
     participant "Broadcaster" as broadcaster
     participant "Router" as router
-    participant "Model instance" as model
+    participant "Lobby" as lobby
 end box
 
 clients -> endpoint : Change request
@@ -22,16 +22,16 @@ note right of router
     communicate incoming
     messages.
 end note
-router -> model : Server message
+router -> lobby : Server message
 deactivate router
 
-activate model
-note right of model
+activate lobby
+note right of lobby
     Accept and commit
     or deny changes.
 end note
-model -> broadcaster
-deactivate model
+lobby -> broadcaster
+deactivate lobby
 
 activate broadcaster
 note right of broadcaster

@@ -1,0 +1,162 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class API<< (S,#FF7700) Singleton >>{
+...Request()
+}
+
+class "...Response" as Response
+
+class Receiver{
+IReceiverObserver[] observers
+connectAsync()
+}
+
+interface IReceiverObserver {
+handle...Message()
+}
+
+class "...Message" as Message <<Data>>
+
+class StateManager {
+push()
+set()
+update()
+render()
+}
+
+abstract class InputState{
+Stage stage
+Image[] buttons
+draw()
+}
+
+class HighScoreListState
+
+class LobbyListState
+
+class MainMenuState
+
+class TutorialState
+
+interface IMessageType {
+Byte byteCode
+}
+
+class GameObserver {
+Gamestage gameStage
+string gameState
+Tower[] placedTowers
+int money
+int health
+float timeConfirmed
+bool endGame
+handle...Message()
+}
+
+class PlayStateWave{
+}
+
+class PlayStatePlacement {
+}
+
+class Projectile {
+int startTileX
+int startTileY
+float endPosition
+}
+
+class Intruder {
+double currentPathPosition
+}
+
+class Tower <<Data>>{
+int id
+int type
+int positionX
+int positionY
+}
+
+enum MessageTypes {
+PING
+FIGHT_ROUND
+GAME_MODE
+INPUT_ROUND
+LOBBY_MODE
+END_GAME
+HEALTH_UPDATE
+MONEY_UPDATE
+PLAYER_COUNT_UPDATE
+TOWER_POSITION
+TOWER_REMOVED
+ANIMATION_CONFIRMATION
+BOARD_TO_PATH_ANIMATION
+PATH_TO_PATH_ANIMATION
+TOWER_ANIMATION
+HEALTH_ANIMATION
+MONEY_ANIMATION
+parse...()
+}
+
+abstract class PlayState {
+GameObserver gameObserver
+}
+
+abstract class State{
+StateManager stateManager
+OrthographicCamera camera
+update()
+render()
+dispose()
+}
+
+
+
+interface MovingGameObject{
+draw()
+update()
+dispose()
+}
+
+'--------
+PlayState *-- GameObserver
+PlayStateWave --|> PlayState
+PlayStatePlacement --|> PlayState
+PlayState -left-|> InputState
+InputState --|> State
+LobbyState *-- GameObserver
+
+API <.. GameObserver
+API <.. HighScoreListState
+API <.. LobbyListState
+API <.. LobbyState
+API <.. PlayStatePlacement
+
+Intruder --|> MovingGameObject
+
+Projectile --|> MovingGameObject
+
+PlayStateWave ..> Projectile
+PlayStateWave ..> Intruder
+
+API .left.> Response
+Receiver ..> MessageTypes
+Receiver ..> Message
+Receiver ..> IReceiverObserver
+Message --|> IMessageType
+
+
+HighScoreListState --|> InputState
+LobbyListState --|> InputState
+TutorialState --|> InputState
+MainMenuState --|> InputState
+LobbyState --|> InputState
+
+State *-- StateManager
+
+GameObserver --|> IReceiverObserver
+GameObserver *-- "n" Tower
+GameObserver *-- "n" Message
+
+
+@enduml

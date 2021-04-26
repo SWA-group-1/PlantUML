@@ -1,0 +1,78 @@
+@startuml
+
+'Component-----------
+class Game << (C, lightBlue) >> {
+Broadcaster Broadcaster
+Dictionary EnemyTypeMap
+Stage Stage
+double TickDuration
+double Time
+double TowerCostFactor
+double TowerSaleFactor
+}
+
+class BoardPosition << (C, lightBlue) >> {
+Tile Position
+}
+
+class Tower << (C, lightBlue) >> {
+bool CanSpotCamo
+int MediumCost
+double ProjectileSpeed
+int ProjectileSpriteNumber
+double Range
+double ReloadTime
+double TimeUntilReloaded
+int TowerSpriteNumber
+int TowerType
+}
+
+class Reloaded << (T, lightBlue) >> {
+
+}
+
+class Enemy << (C, lightBlue) >> {
+bool Camo
+string NextType
+int PlayerDamage
+int SpriteNumber
+}
+
+class PathPosition << (C, lightBlue) >> {
+double LengthTraveled
+}
+
+class PathSpeed << (C, lightBlue) >> {
+double Speed
+}
+
+class ProjectedHealth << (C, lightBlue) >> {
+int ProjectedHealthPoints
+}
+
+'Filter------------
+entity GameFilter << (E, physical >>
+GameFilter -up-* Game
+
+entity ReloadedTowerFilter << (E, physical >>
+ReloadedTowerFilter -up-* BoardPosition
+ReloadedTowerFilter -up-* Tower
+ReloadedTowerFilter -up-* Reloaded
+
+entity TargetFilter << (E, physical >>
+TargetFilter -up-* Enemy
+TargetFilter -up-* PathPosition
+TargetFilter -up-* PathSpeed
+TargetFilter -up-* ProjectedHealth
+
+'System------------
+class ShootingSystem << (S, pink) >> {
+EcsFilter ReloadedTowerFilter
+EcsFilter GameFilter
+EcsFilter TargetFilter
+}
+ShootingSystem -up-* GameFilter
+ShootingSystem -up-* ReloadedTowerFilter
+ShootingSystem -up-* TargetFilter
+
+@enduml

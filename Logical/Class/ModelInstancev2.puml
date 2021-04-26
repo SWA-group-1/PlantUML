@@ -1,0 +1,189 @@
+@startuml
+
+'https://plantuml.com/class-diagram
+'----------------------COMPONENT
+legend top left
+    |Color| Type |
+    |<#physical>| E – Entity|
+    |<#lightBlue>| C – Component|
+    |<#pink>| S – System|
+    |<#darkSeaGreen>| C – Class|
+end legend
+
+class BoardPosition << (C, lightBlue) >> {
+Tile Position
+}
+
+class EnemyComponent <<(C, lightBlue) >> {
+bool Camo
+string NextType
+int playerDamage
+int SpriteNumber
+}
+
+class GameComponent <<(C, lightBlue) >> {
+Broadcaster Broadcaster
+Dictionary<string EnemyType> EnemyTypeMap
+Stage Stage
+double TickDuration
+double Time
+double TowerCostFactor
+double TowerSellFactor
+}
+
+
+class ImpactComponent <<(C, lightBlue) >> {
+double PreviousImpactPosition
+double PreviousImpactTime
+}
+
+class ImpactTimerComponent <<(C, lightBlue) >> {
+    List<double> ImpactTimers
+}
+
+class PathPositionComponent << (C, lightBlue) >> {
+double LengthTraveled
+}
+
+class PathSpeedComponent << (C, lightBlue) >> {
+double Speed
+}
+
+class PlayerComponent << (C, lightBlue) >> {
+int Balance
+int Health
+int PopCount
+}
+
+class ProjectedHealthComponent << (C, lightBlue) >> {
+int ProjectedHealthPoints
+}
+
+class ReloadedTag << (C, lightBlue) >> {
+
+}
+
+class TowerComponent  << (C, lightBlue) >> {
+bool CanSpotCamo
+int MediumCost
+double ProjectileSpeed
+int ProjectileSpriteNumber
+double Range
+double ReloadTime
+double TimeUntilReloaded
+int TowerSpriteNumber
+int TowerType
+}
+
+'---------------------ENTITY
+class Tower << (E, physical >>
+'entity SupportTower << (E, physical >>
+'entity Enemy << (E, physical >>
+'entity Player << (E, physical >>
+
+
+
+'SupportFunction -up-* SupportTower
+'Price -up-* AttackTower
+'Price -up-* SupportTower
+'BoardPosition -up-* AttackTower
+'BoardPosition -up-* SupportTower
+'PathPosition -up-* Enemy
+'Health -up-* Enemy
+'Health -up-* Player
+'Sprite -up-* Enemy
+'Sprite -up-* AttackTower
+'Sprite -up-* SupportTower
+'Speed -up-* Enemy
+'Projectile -up-* AttackTower
+'Money -up-* Player
+'PlayerTag -up-* Player
+
+'------------------SYSTEM
+class EndRoundSystem
+EnemyComponent <.. EndRoundSystem
+ImpactComponent <.. EndRoundSystem
+PathPositionComponent <.. EndRoundSystem
+GameComponent <.. EndRoundSystem
+PlayerComponent <.. EndRoundSystem
+TowerComponent <.. EndRoundSystem
+
+class GameInitializeSystem
+
+class HurtPlayerSystem
+EnemyComponent <.. HurtPlayerSystem
+ImpactComponent <.. HurtPlayerSystem
+PathPositionComponent <.. HurtPlayerSystem
+GameComponent <.. HurtPlayerSystem
+PlayerComponent <.. HurtPlayerSystem
+
+class ImpactTimerSystem
+GameComponent <.. ImpactTimerSystem
+EnemyComponent <.. ImpactTimerSystem
+ImpactComponent <.. ImpactTimerSystem
+ImpactTimerComponent <.. ImpactTimerSystem
+PathPositionComponent <.. ImpactTimerSystem
+PathSpeedComponent <.. ImpactTimerSystem
+
+class PathMoveSystem
+GameComponent <.. PathMoveSystem
+PathPositionComponent <.. PathMoveSystem
+PathSpeedComponent <.. PathMoveSystem
+
+class PlaceEnemySystem
+GameComponent <.. PlaceEnemySystem
+
+class PlaceTowerSystem
+GameComponent <.. PlaceTowerSystem
+PlayerComponent <.. PlaceTowerSystem
+BoardPosition <.. PlaceTowerSystem
+
+class PlayerInitializeSystem
+
+
+class ReloadSystem
+GameComponent <.. ReloadSystem
+TowerComponent <.. ReloadSystem
+ReloadedTag <.. ReloadSystem
+
+class SellTowerSystem
+GameComponent <.. SellTowerSystem
+PlayerComponent <.. SellTowerSystem
+TowerComponent <.. SellTowerSystem
+
+class ShootingSystem
+GameComponent <.. ShootingSystem
+BoardPosition <.. ShootingSystem
+TowerComponent <.. ShootingSystem
+ReloadedTag <.. ShootingSystem
+EnemyComponent <.. ShootingSystem
+PathPositionComponent <.. ShootingSystem
+PathSpeedComponent <.. ShootingSystem
+ProjectedHealthComponent <.. ShootingSystem
+
+class TimeSystem
+GameComponent <.. TimeSystem
+
+class UpdateClientSystem
+GameComponent <.. UpdateClientSystem
+PlayerComponent <.. UpdateClientSystem
+BoardPosition <.. UpdateClientSystem
+TowerComponent <.. UpdateClientSystem
+
+class UpdateClientSystem
+
+'class SupportSystem << (S, pink) >>
+'class ShootingSystem << (S, pink) >>
+'class RenderSystem << (S, pink) >>
+'class MovementSystem << (S, pink) >>
+'class DamagePlayerSystem << (S, pink) >>
+'class PurchaseSystem << (S, pink) >>
+
+' Enemy archetype
+'BoardPosition <.. RenderSystem #blue
+'Sprite <.. RenderSystem #blue
+
+'-------------------------------
+
+
+@enduml

@@ -66,8 +66,8 @@ node "Server" as server {
     agent "Broadcaster" as broadcaster_0 #ADA
     agent "Broadcaster" as broadcaster_1 #ADA
     agent "Storage API" as storage
-    agent "Model instance" as model_0 #ADA
-    agent "Model instance" as model_1 #ADA
+    agent "Lobby" as model_0 #ADA
+    agent "Lobby" as model_1 #ADA
     agent "Orchestrator" as orchestrator
     agent "Router" as router
 
@@ -79,11 +79,12 @@ node "Server" as server {
     model_0 -up-> storage
     model_1 -up-> broadcaster_1
     model_1 -up-> storage
-    orchestrator <--> endpoint
-    orchestrator <-up-> storage
+    orchestrator <-up-> endpoint
+    'orchestrator <-up-> storage
     router <-up- endpoint
     router -up-> model_0
     router -up-> model_1
+    router <-up- orchestrator
 }
 
 client_1 -[hidden]down- server

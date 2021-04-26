@@ -1,37 +1,48 @@
 @startuml
 'https://plantuml.com/sequence-diagram
+!pragma teoz true
 
 actor "User" as user
-box "Client"
+box "Requesting Client"
     participant "User Interface" as ui
     participant "Game Observer" as game
-    participant "API connector" as connector
+    participant "ApiClient" as connector
     participant "Receiver" as receiver
 end box
 participant "Server" as server
 
+box "Passive Client"
+    participant "Receiver" as receiver2
+    participant "Game Observer" as game2
+    participant "User Interface" as ui2
+    'participant "ApiClient" as connector2
+
+end box
+actor "User" as user2
+
 user -> ui : Place tower input
 
-activate ui
 ui -> connector : PlaceTowerRequest()
-deactivate ui
 
-activate connector
-connector -> server : Endpoint is called
-deactivate connector
+connector -> server : (Http/s) Endpoint is called
 
-server -> receiver : Broadcast sent
+server -> receiver :
+&server -> receiver2: (TCP socket) Broadcast sent
 
-activate receiver
 receiver -> game: TowerPlacedMessage
-deactivate receiver
+&receiver2 -> game2: TowerPlacedMessage
 
-activate game
 game -> ui : State change
-deactivate game
+&game2 -> ui2: State Change
 
-activate ui
-ui -> user: :O
-deactivate ui
+ui -> user: :)
+&ui2 -> user2:  :O
+
+
+
+
+
+
+
 
 @enduml

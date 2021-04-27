@@ -56,7 +56,7 @@ DownloadRounds()
 }
 
 class Router {
-
+Register()
 }
 
 class Orchestrator {
@@ -71,17 +71,11 @@ class Lobby{
 long id
 string Name
 int PlayerCount
-JoinLobby()
-LeaveLobby()
-PlaceTower()
-SellTower()
-StartGame()
-StartRound()
 AddObserver()
 Dispose()
 }
 
-class EcsContanier{
+class EcsContainer{
 EcsWorld EcsWorld
 bool HasPlayerDied
 bool HasPlayerDied
@@ -149,27 +143,34 @@ HealthAnimation()
 MoneyAnimation()
 }
 
-interface IReciever
+interface IReceiver{
+JoinLobby()
+LeaveLobby()
+PlaceTower()
+SellTower()
+StartGame()
+StartRound()
+}
 
-API <-- Router
-API <-- Orchestrator
+API <.. Orchestrator: Attach...Handler
+API <.right. Router : Attach...Handler
 
-ConnectionBroker <-- Broadcaster
-ConnectionBroker <-- Orchestrator
 
-IReciever <|-up- Router
-IReciever <|-- Orchestrator
+ConnectionBroker <.. Broadcaster
+ConnectionBroker --* Orchestrator
 
-Router *-- Lobby
+IReceiver <|-- Lobby
+
+Router *-right- IReceiver
 Router --* Orchestrator
 
-Lobby *-- EcsContanier
+Lobby *-- EcsContainer
 Lobby *-- Broadcaster
 Lobby --* Orchestrator
 
-EcsContanier *-- Stage
+EcsContainer *-- Stage
 
-EcsContanier *-- System
+EcsContainer *-- System
 
 EnemyType "n" --* EnemyDefinitions : "EnemyTypes"
 RoundSection "n" --* RoundDefinitions : "Rounds"
@@ -182,9 +183,9 @@ Lobby ..> EnemyDefinitions
 Lobby ..> Broadcaster
 System ..> Broadcaster
 
-StorageAPI <.up. TowerDefinitions
-StorageAPI <.up. RoundDefinitions
-StorageAPI <.up. EnemyDefinitions
+StorageAPI <.up. TowerDefinitions : DownloadTowers
+StorageAPI <.up. RoundDefinitions : DownloadRounds
+StorageAPI <.up. EnemyDefinitions : DownloadEnemies
 
 Stage *-- Point
 Stage *-- Tile

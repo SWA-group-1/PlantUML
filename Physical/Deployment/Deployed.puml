@@ -1,12 +1,12 @@
 @startuml
 'https://plantuml.com/deployment-diagram
 
-node "Android client" {
+node "Android > 4.0" <<Android Client>> {
     package game as "game.apk"
 }
 
 cloud "Google Cloud Platform" #DodgerBlue;line:White;text:White {
-    node "VM instance" #White {
+    node "Debian GNU/Linux 10" <<VM instance>> #White {
         package backend [
             .NET back-end
         ]
@@ -15,7 +15,7 @@ cloud "Google Cloud Platform" #DodgerBlue;line:White;text:White {
     database firestore [
 
 ----
-GCP Cloud Firestore
+GCP Cloud Storage
 ----
 
     ]

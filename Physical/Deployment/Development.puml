@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/deployment-diagram
 
-node "Android client" {
+node "Android > 4.0" <<Android Client>> {
     package game as "game.apk"
 }
 node "Development computer" #White {
@@ -15,15 +15,15 @@ cloud "Google Cloud Platform" #DodgerBlue;line:White;text:White {
     database firestore [
 
 ----
-GCP Cloud Firestore
+GCP Cloud Storage
 ----
 
     ]
 
-    backend -[thickness=2]- firestore
+    backend <..> firestore : "HTTP/S"
 }
 
-backend -[thickness=4]right- game : "                Internet          "
-backend <.right. game : "             "
+backend -[thickness=4]right- game : "            TCP Socket         "
+backend <.right. game : "      HTTP/S       "
 
 @enduml

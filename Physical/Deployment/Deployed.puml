@@ -20,10 +20,10 @@ GCP Cloud Storage
 
     ]
 
-    backend -[thickness=2]- firestore
+    backend <..> firestore : "HTTP/S"
 }
 
-backend -[thickness=4]right- game : "            Internet          "
-backend <.right. game : "             "
+backend -[thickness=4]right- game : "            TCP Socket         "
+backend <.right. game : "      HTTP/S       "
 
 @enduml

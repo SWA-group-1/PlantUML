@@ -1,42 +1,20 @@
 @startditaa
 'https://plantuml.com/ditaa
 
-Legend
-/----\
-|cE99| Model
-\----/
-/----\
-|cADA| View
-\----/
-/----\
-|c9CF|Controller
-\----/
-/----\
-|    | Other
-\----/
-
 Client layers
-+--------------------------------+
-|c9CF                            |
-|         Game controller        | Controller
-|                                |
-+--------------------------------+
-|cADA                            |
-|           Visualizer           |    View
-|                                |
-+---------------+----------------+
-|cADA           |cADA            |
-| Event handler | User interface |  Device UI
-|               |                |
-+---------------+----------------+
-|cE99                            |
-|          Model mirror          | Client logic
-|                                |
-+------------------+-------------+
-|                  |             |
-|   API connector  |   Listener  | Communication
-|                  |             |
-+------------------+-------------+
++-----------+-----------+
+|           |           |
+|   Types   |   States  |      View
+|           |           |
++-----------+-----------+
+|                       |
+|         Utils         |    Utility
+|                       |
++------------+----------+
+|            |          |
+| API client | Receiver |  Communication
+|            |          |
++------------+----------+
 
 Server layers
 +--------------------+---------------------+\
@@ -44,8 +22,8 @@ Server layers
 |               Orchestrator               ||
 |                                          ||
 +------------------------------------------+| Server logic
-|cE99                                      ||
-|              Model instance              ||
+|                                          ||
+|                   Lobby                  ||
 |                                          ||
 +------------------------------------------+/
 |                                          |
